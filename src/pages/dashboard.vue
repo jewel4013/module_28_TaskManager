@@ -1,0 +1,125 @@
+<script setup>
+import { ref } from 'vue';
+
+// স্যারের ডাইনামিক পলিমরফিক এসাইনের জন্য রিঅ্যাক্টিভ স্টেট
+const assignType = ref('user'); 
+const selectedAssignId = ref('');
+</script>
+
+<template>
+  <div class="d-flex min-vh-100 bg-light">
+    <!-- Sidebar Navigation -->
+    <div class="bg-dark text-white p-4" style="width: 260px;">
+      <h4 class="fw-bold mb-5 text-primary text-center">🎯 TaskManager</h4>
+      <ul class="nav flex-column gap-2">
+        <li class="nav-item"><a href="#" class="nav-link text-white active bg-primary rounded-3 px-3 py-2"><i class="bi bi-grid-1x2-fill me-2"></i> Dashboard</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-secondary px-3 py-2 hover-text-white"><i class="bi bi-list-task me-2"></i> All Tasks</a></li>
+        <li class="nav-item"><a href="#" class="nav-link text-secondary px-3 py-2 hover-text-white"><i class="bi bi-people-fill me-2"></i> Groups</a></li>
+        <li class="nav-item"><hr class="border-secondary my-4"></li>
+        <li class="nav-item"><a href="#" class="nav-link text-danger px-3 py-2"><i class="bi bi-box-arrow-left me-2"></i> Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="flex-grow-1 p-5 overflow-auto">
+      <!-- Navbar / Top Header -->
+      <div class="d-flex justify-content-between align-items-center mb-5 pb-3 border-b">
+        <div>
+          <h2 class="fw-extrabold text-dark mb-0">Task Assignment Dashboard</h2>
+          <small class="text-muted">Manage corporate and individual workloads</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span class="badge bg-secondary p-2 rounded-circle"><i class="bi bi-bell-fill fs-5"></i></span>
+          <div class="fw-semibold text-secondary">Hello, Admin 👋</div>
+        </div>
+      </div>
+
+      <!-- Add & Polymorphic Task Assignment Section -->
+      <div class="card shadow-sm border-0 rounded-4 p-4 mb-5 bg-white">
+        <h5 class="fw-bold mb-4 text-dark"><i class="bi bi-plus-circle-fill text-primary me-2"></i> Assign New Task</h5>
+        <form class="row g-3 align-items-end">
+          <div class="col-md-3">
+            <label class="form-label font-monospace text-uppercase text-secondary small">Select Task</label>
+            <select class="form-select rounded-3">
+              <option value="">Choose a task...</option>
+              <option value="1">Database Optimization</option>
+              <option value="2">Vue Frontend Scaffold</option>
+            </select>
+          </div>
+          
+          <!-- স্যারের এপিআই আর্কিটেকচার অনুযায়ী টাইপ ড্রপডাউন -->
+          <div class="col-md-2">
+            <label class="form-label font-monospace text-uppercase text-secondary small">Assign To</label>
+            <select v-model="assignType" class="form-select rounded-3">
+              <option value="user">Single User</option>
+              <option value="group">Team Group</option>
+            </select>
+          </div>
+
+          <!-- টাইপ অনুযায়ী ডাইনামিকালি আইডি সিলেক্ট করার অপশন -->
+          <div class="col-md-4">
+            <label class="form-label font-monospace text-uppercase text-secondary small">Select Target Entity</label>
+            <select v-model="selectedAssignId" class="form-select rounded-3">
+              <option value="">Select ID...</option>
+              <template v-if="assignType === 'user'">
+                <option value="1">Rakib Ahmed (User ID: 1)</option>
+                <option value="2">Sumon Khan (User ID: 2)</option>
+              </template>
+              <template v-else>
+                <option value="1">Backend Devs (Group ID: 1)</option>
+                <option value="2">QA Engineers (Group ID: 2)</option>
+              </template>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100 rounded-3 fw-bold shadow-sm py-2">Execute Assignment</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Current Task Assignment Status Table -->
+      <div class="card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-white border-0 py-4 px-4">
+          <h5 class="fw-bold text-dark m-0">Live Task Pipeline</h5>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light font-monospace text-uppercase text-secondary small">
+              <tr>
+                <th class="py-3 px-4">Task Name</th>
+                <th class="py-3">Assignee Type</th>
+                <th class="py-3">Assigned Target</th>
+                <th class="py-3">Assigned By</th>
+                <th class="py-3 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-3 px-4 fw-medium">Database Optimization</td>
+                <td><span class="badge bg-info-subtle text-info rounded-pill px-2">Group</span></td>
+                <td class="fw-semibold">Backend Devs</td>
+                <td>Admin User</td>
+                <td class="text-center"><span class="badge bg-warning text-dark px-3 rounded-3">Progress</span></td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 fw-medium">Vue Frontend Scaffold</td>
+                <td><span class="badge bg-success-subtle text-success rounded-pill px-2">User</span></td>
+                <td class="fw-semibold">Rakib Ahmed</td>
+                <td>Admin User</td>
+                <td class="text-center"><span class="badge bg-success px-3 rounded-3">Completed</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.hover-text-white:hover {
+  color: white !important;
+  transition: 0.2s ease;
+}
+</style>
