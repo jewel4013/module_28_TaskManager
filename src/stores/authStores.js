@@ -38,11 +38,72 @@ export const useAuthStore = defineStore('auth', () =>{
     }
 
 
+    const login = async (cradentials) => {
+        try{
+            const res = await apiClient.post('/auth/login', cradentials)
+            token.value = res.data.data.token;
+            localStorage.setItem('token', token.value);
+            cogoToast.success('Login Successful', {
+                position: 'bottom-right',
+            });
+            return true;
+        }catch(error){
+            if(error.status === 422){
+                const errors = error.response.data.messages;
+                errors.forEach((msg) => {
+                    cogoToast.error(msg, {
+                        position: 'bottom-right',
+                    });
+                })
+            }else{
+                cogoToast.error('Internal Server Error', {
+                    position: 'bottom-right',
+                });
+            }
+
+            return false;
+        }
+    }
+
+    const logout = async () => {
+        try{
+            const res = await apiClient.post('/auth/user/logout')
+            token.value = null;
+            localStorage.removeItem('token');
+            cogoToast.success('Logout Successful', {
+                position: 'bottom-right',
+            });
+            if(res){
+                router.push({name: 'login'});
+            }
+            return true;
+        }catch(error){
+            if(error.status === 422){
+                const errors = error.response.data.messages;
+                errors.forEach((msg) => {
+                    cogoToast.error(msg, {
+                        position: 'bottom-right',
+                    });
+                })
+            }else{
+                cogoToast.error('Internal Server Error', {
+                    position: 'bottom-right',
+                });
+            }
+
+            return false;
+        }
+    }
+
+
+
     return {
         router,
         user,
         token,
         register,
+        login,
+        logout,
     }
 })
 

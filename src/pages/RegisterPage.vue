@@ -18,7 +18,7 @@ const handleRegister = async () => {
         name: name.value,
         email: email.value,
         password: password.value,
-        password_confirmation: confirmPassword.value,
+        password_confirmation: confirmPassword.value
     });
 
     if(regi){
@@ -41,7 +41,7 @@ const handleRegister = async () => {
                         <label class="form-label font-monospace text-uppercase text-secondary small">Full Name</label>
                         <input type="text" 
                             class="form-control rounded-3" 
-                            placeholder="John Doe" required 
+                            placeholder="" required 
                             name="name"
                             v-model="name">
                     </div>
@@ -50,7 +50,7 @@ const handleRegister = async () => {
                             Address</label>
                         <input type="email" 
                         class="form-control rounded-3" 
-                        placeholder="john@example.com" required 
+                        placeholder="" required 
                         name="email"
                         v-model="email">
                     </div>
@@ -58,7 +58,7 @@ const handleRegister = async () => {
                         <label class="form-label font-monospace text-uppercase text-secondary small">Password</label>
                         <input type="password" 
                         class="form-control rounded-3" 
-                        placeholder="Min. 6 characters" required 
+                        placeholder="" required 
                         name="password"
                         v-model="password">
                     </div>
@@ -67,15 +67,18 @@ const handleRegister = async () => {
                             Password</label>
                         <input type="password" 
                         class="form-control rounded-3" 
-                        placeholder="Retype password" required 
+                        placeholder="" required 
                         name="confirmPassword"
                         v-model="confirmPassword">
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 mt-3 fw-bold shadow-sm">Register</button>
                 </form>
                 <div class="text-center mt-4">
-                    <p class="text-muted small">Already a member? <a href="#"
-                            class="text-primary text-decoration-none fw-bold">Sign In</a></p>
+                    <p class="text-muted small">Already a member? 
+                        <a href="#"
+                            class="text-primary text-decoration-none fw-bold">Sign In
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

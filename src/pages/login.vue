@@ -1,4 +1,23 @@
 <script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '../stores/authStores';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const email = ref('');
+const password = ref('');
+
+const authStore = useAuthStore();
+const handleLogin = async () => {
+  const login = await authStore.login({
+    email: email.value,
+    password: password.value
+  });
+  if(login){
+    router.push({name: 'dashboard'})
+  }
+}
 </script>
 
 <template>
@@ -12,11 +31,17 @@
         <form @submit.prevent="handleLogin">
           <div class="mb-3">
             <label class="form-label font-monospace text-uppercase text-secondary small">Email Address</label>
-            <input type="email" class="form-control form-control-lg rounded-3 fs-6" placeholder="name@example.com" required>
+            <input type="email" 
+                class="form-control form-control-lg rounded-3 fs-6" 
+                placeholder="" required 
+                v-model="email">
           </div>
           <div class="mb-3">
             <label class="form-label font-monospace text-uppercase text-secondary small">Password</label>
-            <input type="password" class="form-control form-control-lg rounded-3 fs-6" placeholder="••••••••" required>
+            <input type="password" 
+                class="form-control form-control-lg rounded-3 fs-6" 
+                placeholder="" required 
+                v-model="password">
           </div>
           <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 mt-3 fw-bold shadow-sm">Sign In</button>
         </form>
