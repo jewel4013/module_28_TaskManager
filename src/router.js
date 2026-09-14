@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import RegisterPage from './pages/RegisterPage.vue';
 import Login from './pages/login.vue';
 import Dashboard from './pages/dashboard.vue';
+import MasterLayout from './components/MasterLayout.vue';
+import Tasks from './pages/tasks.vue';
+import CreateTask from './pages/createTask.vue';
 
 const routes = [
     {
@@ -15,10 +18,27 @@ const routes = [
         name: 'login',
     },
     {
-        path: '/dashboard',
-        component: Dashboard,
-        name: 'dashboard',
+        path: '/',
+        component: MasterLayout,
+        children: [
+            {
+                path: '/',
+                component: Dashboard,
+                name: 'dashboard',
+            },
+            {
+                path: '/tasks',
+                component: Tasks,
+                name: 'tasks',
+            },
+            {
+                path: '/create-task',
+                component: CreateTask,
+                name: 'createTask',
+            }
+        ]
     }
+    
 
 ]
 
